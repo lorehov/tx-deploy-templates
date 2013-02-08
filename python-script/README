@@ -1,0 +1,22 @@
+The most flexible way.
+
+Pros:
+ - we can freely use command line arguments
+ - we can easily use config files
+ - we can install service as package and start it as a service, using init scripts
+ - we can start service manually from some occasional dir (/home/beast/www/service)
+
+Cons:
+ - we must declare and handle all command line options manually (so some ugly things appears:
+   logging setting up, reactor setting up)
+ - many of boilerplate code if we want to use many facades (Web, TCP and other I means)
+
+ Why using conf as config: because xml is awful and json is not readable.
+
+ Proposed ways to deploy/run:
+ 1. install package, config -> etc/, run.ex -> /usr/bin/run, create init script, run as a daemon.
+ 2. create virtual env in users directory, put package there, run from there (of course we must use init script too)
+
+ How we can reduce amount of the boilerplate code.
+ 1. Obviously we can make some OptionsAbstract class where we put our general options (log, config, etc) and create
+    some function(s) for handling there, for ex. initLog(opts), etc.
