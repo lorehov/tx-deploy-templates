@@ -14,8 +14,11 @@ Cons:
  Why using conf as config: because xml is awful and json is not readable.
 
  Proposed ways to deploy/run:
- 1. install package, config -> etc/, run.ex -> /usr/bin/run, create init script, run as a daemon.
- 2. create virtual env in users directory, put package there, run from there (of course we must use init script too)
+    - install package
+    - put run files in directory owned by service-user
+    - put *.conf in where you expects them
+    - in init.d script use something like this:
+    "/usr/bin/serv/run -r epoll -c /etc/serv/serv.conf -l /var/log/serv/twistd.log "
 
  How we can reduce amount of the boilerplate code.
  1. Obviously we can make some OptionsAbstract class where we put our general options (log, config, etc) and create

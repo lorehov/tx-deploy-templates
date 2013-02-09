@@ -1,0 +1,19 @@
+The easiest way.
+Pros:
+ - almost 0 boilerplate
+ - twistd web take care about logging, reactor, port, ssl
+
+Cons:
+ - you can't use custom command line arguments
+ - you can only run Web resources in such way (no low level TCP endpoints etc)
+
+How to deploy/run:
+   - install package
+   - put *.rpy files in directory owned by service-user
+   - put *.conf in where you expects them
+   - in init.d script use something like this:
+   "twistd -r epoll -u $uid -g $gid --pidfile=/var/run/serv/twistd.pid web -n --resource-script=/usr/lib/serv/server.rpy -p 3000 -l /var/log/serv/twistd.log "
+
+P.S.: Such way is very usefull when you want to set up a cluster of multiple similar twisted services,
+but don want to make things complex using manual process managing (using multiprocessing for ex) and use
+shell + zabbix instead.
