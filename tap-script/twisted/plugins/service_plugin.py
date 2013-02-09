@@ -1,4 +1,10 @@
+from zope.interface import implements
+
+from twisted.web import server
+from twisted.application import service, internet
+from twisted.plugin import IPlugin
 from twisted.python import usage
+from mservice.application import FingerFactory, SomeLeafResource
 
 
 class Options(usage.Options):
@@ -14,3 +20,17 @@ class Options(usage.Options):
         ["ssl", "s", "Use SSL"]
     ]
 
+
+class ServiceMaker(object):
+    implements(service.IServiceMaker, IPlugin)
+    tapname = "myprojct"
+    description = "Run this! It'll make your dog happy."
+    options = Options
+
+    def makeService(self):
+        serviceCollection = service.MultiService()
+        internet.TCPServer(9111, FingerFactory()).setServiceParent(serviceCollection)
+        internet.TCPServer(3000, server.Site(SomeLeafResource())).serServiceParent(serviceCollection)
+        return serviceCollection
+
+service = ServiceMaker()
