@@ -27,7 +27,7 @@ class ServiceMaker(object):
     description = "Run this! It'll make your dog happy."
     options = Options
 
-    def makeService(self):
+    def makeService(self, options):
         serviceCollection = service.MultiService()
         internet.TCPServer(9111, FingerFactory()).setServiceParent(serviceCollection)
         internet.TCPServer(3000, server.Site(SomeLeafResource())).serServiceParent(serviceCollection)

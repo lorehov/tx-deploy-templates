@@ -1,0 +1,13 @@
+Most complicated, but flexible way.
+
+Pros:
+ - good run abstraction (you can have many plugins for one service,
+ which simply recombines your components; and you always know thats
+ your run scripts are in the twisted/plugins)
+ - you can use command line arguments
+ - you can use twisted AOP style configuration (through interfaces etc)
+ - you can skip many of configuration boilerplate as logging (twistd take care of)
+
+Cons:
+ - complicated
+ - hard to use debugging tools (Idea, PyDev)
