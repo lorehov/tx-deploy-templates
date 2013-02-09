@@ -4,7 +4,7 @@ from twisted.web import server
 from twisted.application import service, internet
 from twisted.plugin import IPlugin
 from twisted.python import usage
-from mservice.application import FingerFactory, SomeLeafResource
+from mserv.application import FingerFactory, SomeLeafResource
 
 
 class Options(usage.Options):

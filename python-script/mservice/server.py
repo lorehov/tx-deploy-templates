@@ -1,24 +1,12 @@
-import os
-import syslog
-import sys
-import ConfigParser
-
 from twisted.internet import protocol, reactor
 from twisted.internet.ssl import DefaultOpenSSLContextFactory
 from twisted.protocols import basic
-from twisted.python import usage, log
-from twisted.python.logfile import DailyLogFile
 
 from twisted.web import server, resource
+from mservice import common
 
 
-class Options(usage.Options):
-
-    optParameters = [
-        ["logfile", "l", "twisted.log", "Where to put logs"],
-        ["reactor", "r", "select", "Nuclear plant type"],
-        ["config", "c", "config.json", "Where are the settings lies"]
-    ]
+class Options(common.Options):
 
     optFlags = [
         ["verbose", "v", "Run verbosely"],
@@ -57,27 +45,11 @@ def runApplication():
     opts = Options()
     opts.parseOptions()
 
-    #setting up logging
-    logDest = opts['logfile']
-    try:
-        if logDest == 'syslog':
-            syslog.startLogging('z4r')
-        elif logDest == 'stdout':
-            log.startLogging(sys.stdout)
-        else:
-            log.startLogging(DailyLogFile(os.path.basename(logDest), os.path.dirname(logDest)))
-    except Exception, ex:
-        log.startLogging(sys.stdout)
-        log.msg(str(ex))
+    common.initLogs(opts['logfile'])
 
-    #setting up reactor
-    if opts['reactor'] == 'epoll':
-        from twisted.internet import epollreactor
-        epollreactor.install()
+    common.installReactor(opts['reactor'])
 
-    #reading config
-    config = ConfigParser.ConfigParser()
-    config.read(opts['config'])
+    config = common.loadConfig(opts['config'])
 
     #starting services with options from config
     if opts['ssl']:

@@ -7,15 +7,15 @@ def refresh_plugin_cache():
     list(getPlugins(IPlugin))
 
 dist = setup(
-    name='mservice',
+    name='mserv',
     version='0.1',
-    description = "mservice",
+    description = "mserv",
     author="PVI",
     author_email="pvi@gmail.com",
-    url="ssh://git@mservice.git",
+    url="ssh://git@mserv.git",
     license="GPL",
 
-    packages=['mservice', 'twisted.plugins'],
+    packages=['mserv', 'twisted.plugins'],
     package_data = {
         'twisted': ['plugins/service_plugin.py']
     },
